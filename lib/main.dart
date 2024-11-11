@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'screens/home_page.dart';
+import 'screens/history_page.dart';
+import 'screens/settings_page.dart';
+import 'widgets/header.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,27 +15,31 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Image2Text',
+      title: 'Image2Text Extraction',
       theme: ThemeData(
         primaryColor: const Color(0xFFb68cbf),
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color(0xFFb68cbf)),
       ),
-      home: const Image2TextHomePage(),
+      home: const MainPage(),
     );
   }
 }
 
-class Image2TextHomePage extends StatefulWidget {
-  const Image2TextHomePage({Key? key}) : super(key: key);
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
 
   @override
-  _Image2TextHomePageState createState() => _Image2TextHomePageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _Image2TextHomePageState extends State<Image2TextHomePage> {
-  int _selectedIndex = 0; // Bottom Navigation'da seçili sayfa
-  String recognizedText = ''; // Model çıktısını burada göstereceğiz
-  bool isLoading = false; // Yükleme durumunu göstermek için
+class _MainPageState extends State<MainPage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = const [
+    HomePage(),
+    HistoryPage(),
+    SettingsPage(),
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -42,122 +50,36 @@ class _Image2TextHomePageState extends State<Image2TextHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          // Modern ve tam genişlikte header
-          Container(
-            width: double.infinity, // Header'ı tam genişlikte yapar
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
-            decoration: const BoxDecoration(
-              color: Color(0xFFb68cbf),
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(24),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Text(
-                  'Image2Text',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Resim seçin veya fotoğraf çekin',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Görüntü alma butonları
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.photo_library),
-                        label: const Text('Galeriden Seç'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFb68cbf), // 'primary' yerine 'backgroundColor' kullanılıyor
-                          foregroundColor: Colors.white, // 'onPrimary' yerine 'foregroundColor' kullanılıyor
-                        ),
-                        onPressed: () {
-                          // Galeriden resim seçme fonksiyonu burada olacak
-                        },
-                      ),
-                      const SizedBox(width: 20),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.camera_alt),
-                        label: const Text('Fotoğraf Çek'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFb68cbf), // 'primary' yerine 'backgroundColor' kullanılıyor
-                          foregroundColor: Colors.white, // 'onPrimary' yerine 'foregroundColor' kullanılıyor
-                        ),
-                        onPressed: () {
-                          // Kamera açma fonksiyonu burada olacak
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  
-                  // Seçilen resim veya yükleme durumu
-                  isLoading
-                      ? const CircularProgressIndicator(color: Color(0xFFb68cbf)) // Yükleme durumunu gösterir
-                      : recognizedText.isNotEmpty
-                          ? Column(
-                              children: [
-                                const Text(
-                                  'Tanımlanan Metin:',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  recognizedText,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            )
-                          : const Text('Henüz bir resim işlenmedi.'),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      
-      // Bottom Navigation Bar
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Ana Sayfa',
+            label: 'Home Page',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-            label: 'Geçmiş',
+            label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Ayarlar',
+            label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: const Color(0xFFb68cbf),
         onTap: _onItemTapped,
+      ),
+      body: Column(
+        children: [
+          const Header(),
+          Expanded(
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: _pages,
+            ),
+          ),
+        ],
       ),
     );
   }
