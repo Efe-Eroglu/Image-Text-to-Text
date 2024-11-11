@@ -110,13 +110,13 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 30),
           Expanded(
             child: Container(
-              width: double.infinity, // Genişliği tam ekran yap
+              width: double.infinity,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: SingleChildScrollView( // Uzun metinlerin kaydırılmasını sağla
+              child: SingleChildScrollView(
                 child: Text(
                   extractedText.isNotEmpty
                       ? extractedText

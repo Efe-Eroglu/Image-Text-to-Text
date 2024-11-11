@@ -44,10 +44,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [
-    HomePage(),
-    HistoryPage(),
-    SettingsPage(),
+  final List<Widget> _pages = [
+    const HomePage(),
+    const HistoryPage(),
+    const SettingsPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -63,10 +63,7 @@ class _MainPageState extends State<MainPage> {
         children: [
           const Header(),
           Expanded(
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: _pages,
-            ),
+            child: _pages[_selectedIndex],
           ),
         ],
       ),
@@ -74,15 +71,15 @@ class _MainPageState extends State<MainPage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Ana Sayfa',
+            label: 'Home Page',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-            label: 'Geçmiş',
+            label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Ayarlar',
+            label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,
