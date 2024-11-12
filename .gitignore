@@ -1,0 +1,47 @@
+# Flutter/Dart
+build/
+.flutter/
+.dart_tool/
+.packages
+.idea/
+.vscode/
+*.iml
+
+# iOS
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/ServiceDefinitions.json
+ios/Runner.xcworkspace/
+ios/Pods/
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Android
+android/.gradle/
+android/app/build/
+android/app/app.iml
+android/local.properties
+android/.idea/
+
+# Web
+web/.*
+
+# MacOS
+macos/Flutter/Flutter.framework
+macos/Flutter/ephemeral
+macos/Pods/
+macos/Runner.xcworkspace/
+macos/ServiceDefinitions.json
+macos
+linux
+
+# Windows
+windows/Flutter/ephemeral
+windows
+web
+# Linux
+linux/Flutter/ephemeral
+
+# Other
+.DS_Store
+*.lock
+*.log
